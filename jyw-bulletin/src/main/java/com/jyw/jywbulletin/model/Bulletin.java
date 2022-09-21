@@ -1,6 +1,7 @@
 package com.jyw.jywbulletin.model;
 
 
+import cn.jyw.feign.common.api.Type;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,8 +22,8 @@ public class Bulletin {
     private Integer id;
     /**
      * 公告类型
-     * 0：通知公告
-     * 1：政策法规
+     * 3001：通知公告
+     * 3002：政策法规
      */
     private Integer type;
     /**
