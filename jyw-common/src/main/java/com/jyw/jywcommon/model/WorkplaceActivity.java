@@ -1,6 +1,4 @@
-package com.jyw.jywbulletin.model;
-
-
+package com.jyw.jywcommon.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
@@ -10,22 +8,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @Data
-@TableName("bulletin")
+@TableName("workplace_activity")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bulletin {
+public class WorkplaceActivity {
     /**
      * 主键id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
-     * 公告类型
-     * 3001：通知公告
-     * 3002：政策法规
+     *职场活动代码为4000
      */
-    private Integer type;
+    private Integer type=4000;
     /**
      * 标题
      */
