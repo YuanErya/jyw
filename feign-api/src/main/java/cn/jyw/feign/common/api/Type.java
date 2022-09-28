@@ -1,23 +1,27 @@
 package cn.jyw.feign.common.api;
 
 //对应类型和类型代码
-public enum Type implements ITypeCode{
+public enum Type implements ITypeCode {
 
-    job_guide(2000,"就业指导"),
+    homepage_recruitment_work(1001, "招聘"),
+    homepage_speech(1002,"宣讲会"),
+    homepage_recruitment_internship(1003, "实习"),
 
-    bulletin_announcement(3001,"公告"),
-    bulletin_policy(3002,"政策"),
+    job_guide(2000, "就业指导"),
 
-    workplace_activity(4000,"职场活动"),
-    news_trends(5000,"新闻动态");
+    bulletin_announcement(3001, "公告"),
+    bulletin_policy(3002, "政策"),
+
+    workplace_activity(4000, "职场活动"),
+    news_trends(5000, "新闻动态");
 
 
-    private  final Integer typeCode;
-    private  final String  name;
+    private final Integer typeCode;
+    private final String name;
 
-    Type(int code, String name){
-        this.typeCode=code;
-        this.name=name;
+    Type(int code, String name) {
+        this.typeCode = code;
+        this.name = name;
     }
 
     @Override
@@ -32,7 +36,7 @@ public enum Type implements ITypeCode{
 
     @Override
     public String toString() {
-        return "type=" + name ;
+        return "type=" + name;
     }
 
 }

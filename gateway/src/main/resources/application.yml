@@ -10,7 +10,7 @@ spring:
     name: gateway
   cloud:
     nacos:
-      server-addr: localhost:8848
+      server-addr: 175.178.108.114:8848
     gateway:
       routes:
         - id: jyw-common

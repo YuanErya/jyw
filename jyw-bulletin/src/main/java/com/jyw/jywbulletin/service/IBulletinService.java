@@ -8,7 +8,6 @@ import com.jyw.jywbulletin.model.Bulletin;
 import java.util.HashMap;
 
 public interface IBulletinService extends IService<Bulletin> {
-    public ShowListVO<ShowSimpleVO> listBulletin(Integer page, Integer limit, Integer type);
-    public ShowListVO<ShowSimpleVO> search(Integer page, Integer limit, String key);
-
+    ShowListVO<ShowSimpleVO> listBulletin(Integer page, Integer limit, Integer type);
+    ShowListVO<ShowSimpleVO> search(Integer page, Integer limit, String key);
 }

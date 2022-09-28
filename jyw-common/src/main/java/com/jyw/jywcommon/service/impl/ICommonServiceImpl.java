@@ -76,6 +76,7 @@ public class ICommonServiceImpl implements ICommonService {
                     lqwWorkplace.like(WorkplaceActivity::getTitle,key).or().like(WorkplaceActivity::getContent,key);
                     workplaceActivityMapper.selectPage(workList,lqwWorkplace);
                 }else{workplaceActivityMapper.selectPage(workList,null);}
+                show.setType(type.getMessage());
                 show.setTotalCount(workList.getTotal());
                 show.setPageSize(workList.getSize());
                 show.setTotalPage(workList.getPages());
@@ -99,6 +100,7 @@ public class ICommonServiceImpl implements ICommonService {
                     lqwNews.like(NewsTrends::getTitle,key).or().like(NewsTrends::getContent,key);
                    newsTrendsMapper.selectPage(newsList,lqwNews);
                 }else{newsTrendsMapper.selectPage(newsList,null);}
+                show.setType(type.getMessage());
                 show.setTotalCount(newsList.getTotal());
                 show.setPageSize(newsList.getSize());
                 show.setTotalPage(newsList.getPages());
