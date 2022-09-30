@@ -63,9 +63,7 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
         Page<Speech> plist = new Page<Speech>(page, limit);
         speechMapper.selectPage(plist, lqw);
         show.setType(Type.homepage_speech.getMessage());
-        show.setTotalCount(plist.getTotal());
         show.setPageSize(plist.getSize());
-        show.setTotalPage(plist.getPages());
         show.setCurrPage(plist.getCurrent());
         List<SpeechVO> list = new ArrayList<SpeechVO>();
         //将Bulltin简化为分页展示的格式，及省去了具体内容
@@ -82,6 +80,8 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
             vo.setEndTime(plist.getRecords().get(i).getEndTime());
             if(tmpInterval==interval){list.add(vo);}
         }
+        show.setTotalCount((long)list.size());
+        show.setTotalPage((long)(list.size()/limit+1));
         show.setList(list);
         return show;
     }
