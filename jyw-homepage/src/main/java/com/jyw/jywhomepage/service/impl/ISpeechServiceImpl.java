@@ -9,17 +9,27 @@ import com.jyw.jywhomepage.mapper.SpeechMapper;
 import com.jyw.jywhomepage.model.Speech;
 import com.jyw.jywhomepage.model.vo.SpeechVO;
 import com.jyw.jywhomepage.service.ISpeechService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implements ISpeechService {
     @Autowired
     private SpeechMapper speechMapper;
 
+    /**
+     *
+     * @param page
+     * @param limit
+     * @param type
+     * @return
+     */
     @Override
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
@@ -33,13 +43,22 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
         show.setTotalPage(plist.getPages());
         show.setCurrPage(plist.getCurrent());
         List<SpeechVO> list = new ArrayList<SpeechVO>();
-        //将Bulltin简化为分页展示的格式，及省去了具体内容
+        //简化为分页展示的格式，及省去了具体内容
         for (int i = 0; i < plist.getRecords().size(); i++) {
             SpeechVO vo = new SpeechVO();
             vo.setId(plist.getRecords().get(i).getId());
             vo.setType(Type.homepage_speech);
             vo.setAddress(plist.getRecords().get(i).getAddress());
-            long interval = (plist.getRecords().get(i).getStartDate().getTime() - System.currentTimeMillis()) / 1000 / 24 / 60 / 60;
+
+            //计算时间的天数差，要忽略具体时间点的影响
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+            long interval=0;
+            try {
+                interval = (formatter.parse(formatter.format(plist.getRecords().get(i).getStartDate().getTime())).getTime()
+                        - formatter.parse(formatter.format(System.currentTimeMillis())).getTime()) / 1000 / 24 / 60 / 60;
+            }catch(Exception e){
+                log.error("时间格式错误");
+            }
             if (interval >= 0 && interval < 10) {
                 vo.setInterval(interval);
             } else {
@@ -72,7 +91,15 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
             vo.setId(plist.getRecords().get(i).getId());
             vo.setType(Type.homepage_speech);
             vo.setAddress(plist.getRecords().get(i).getAddress());
-            long tmpInterval = (plist.getRecords().get(i).getStartDate().getTime() - System.currentTimeMillis()) / 1000 / 24 / 60 / 60;
+            //先洗去时间的具体时间点
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+            long tmpInterval=0;
+            try {
+                tmpInterval = (formatter.parse(formatter.format(plist.getRecords().get(i).getStartDate().getTime())).getTime()
+                        - formatter.parse(formatter.format(System.currentTimeMillis())).getTime()) / 1000 / 24 / 60 / 60;
+            }catch(Exception e){
+                log.error("时间格式错误");
+            }
             vo.setInterval(tmpInterval);
             vo.setTitle(plist.getRecords().get(i).getTitle());
             vo.setStartDate(plist.getRecords().get(i).getStartDate());

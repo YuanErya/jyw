@@ -4,7 +4,9 @@ package cn.jyw.feign.common.api;
 public enum Type implements ITypeCode {
 
     homepage_recruitment_work(1001, "招聘"),
-    homepage_speech(1002,"宣讲会"),
+    homepage_speech(1002,"宣讲双选"),
+    homepage_speech_preach(10021,"宣讲会"),
+    homepage_speech_double_choose(10022,"双选会"),
     homepage_recruitment_internship(1003, "实习"),
 
     job_guide(2000, "就业指导"),

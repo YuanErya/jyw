@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: jyw
-    password: Jyw123456
-    url: jdbc:mysql://rm-2vc7307rxg3bfg4rhno.mysql.cn-chengdu.rds.aliyuncs.com:3306/jyw?useUnicode=true&allowMultiQueries=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=GMT%2B8
+    username: root
+    password: jyw123
+    url: jdbc:mysql://175.178.108.114:3306/jyw?useUnicode=true&allowMultiQueries=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=GMT%2B8
     type: com.zaxxer.hikari.HikariDataSource
   application:
     name: jywcommon

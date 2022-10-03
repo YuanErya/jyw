@@ -15,10 +15,10 @@ CREATE TABLE `recruitment`  (
                             INDEX `title`(`title`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '招聘实习表' ROW_FORMAT = DYNAMIC;
 
-INSERT INTO `speech` VALUES (1,1001,'招聘岗位1','测试内容1','2020-01-02 19:06:51');
-INSERT INTO `speech` VALUES (2,1003,'实习岗位1','测试内容2','2019-04-29 19:54:23');
-INSERT INTO `speech` VALUES (3,1001,'招聘岗位2','测试内容3','2019-01-01 14:53:04');
-INSERT INTO `speech` VALUES (4,1001,'招聘岗位3','测试内容4','2018-06-21 08:05:43');
+INSERT INTO `recruitment` VALUES (1,1001,'招聘岗位1','测试内容1','2020-01-02 19:06:51');
+INSERT INTO `recruitment` VALUES (2,1003,'实习岗位1','测试内容2','2019-04-29 19:54:23');
+INSERT INTO `recruitment` VALUES (3,1001,'招聘岗位2','测试内容3','2019-01-01 14:53:04');
+INSERT INTO `recruitment` VALUES (4,1001,'招聘岗位3','测试内容4','2018-06-21 08:05:43');
 
 
 DROP TABLE IF EXISTS `speech`;
@@ -37,7 +37,7 @@ CREATE TABLE `speech`  (
                             INDEX `create_time`(`create_time`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '宣讲会表' ROW_FORMAT = DYNAMIC;
 
-INSERT INTO `recruitment` VALUES (1,1002,'极氪汽车（宁波杭州湾新区）有限公司2022届春季校园招聘宣讲会','老图书馆学术报告厅','2022-07-08 19:00:00','2022-07-08 19:00:00','2022-07-08 21:00:00','测试内容1','2022-01-02 19:06:51');
-INSERT INTO `recruitment` VALUES (2,1002,'xxxxx宣讲会','xxxx学术报告厅','2022-12-25 19:00:00','2022-12-25 19:00:00','2022-12-25 21:00:00','测试内容2','2022-07-05 19:06:51');
-INSERT INTO `recruitment` VALUES (3,1002,'测试宣讲会1','测试内容3','2022-10-12 19:00:00','2022-10-12 19:00:00','2022-10-12 21:00:00','测试内容2','2022-09-05 19:06:51');
-INSERT INTO `recruitment` VALUES (4,1002,'测试宣讲会2','测试内容4','2022-11-23 19:00:00','2022-11-23 19:00:00','2022-11-23 21:00:00','测试内容2','2022-08-05 19:06:51');
+INSERT INTO `speech` VALUES (1,10021,'极氪汽车（宁波杭州湾新区）有限公司2022届春季校园招聘宣讲会','老图书馆学术报告厅','2022-07-08 19:00:00','2022-07-08 19:00:00','2022-07-08 21:00:00','测试内容1','2022-01-02 19:06:51');
+INSERT INTO `speech` VALUES (2,10021,'xxxxx宣讲会','xxxx学术报告厅','2022-12-25 19:00:00','2022-12-25 19:00:00','2022-12-25 21:00:00','测试内容2','2022-07-05 19:06:51');
+INSERT INTO `speech` VALUES (3,10022,'测试宣讲会1','测试内容3','2022-10-12 19:00:00','2022-10-12 19:00:00','2022-10-12 21:00:00','测试内容2','2022-09-05 19:06:51');
+INSERT INTO `speech` VALUES (4,10022,'测试宣讲会2','测试内容4','2022-11-23 19:00:00','2022-11-23 19:00:00','2022-11-23 21:00:00','测试内容2','2022-08-05 19:06:51');
