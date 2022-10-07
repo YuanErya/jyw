@@ -33,10 +33,8 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
     @Override
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
-        LambdaQueryWrapper<Speech> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Speech::getType, type);
         Page<Speech> plist = new Page<Speech>(page, limit);
-        speechMapper.selectPage(plist, lqw);
+        speechMapper.selectPage(plist, null);
         show.setType(Type.homepage_speech.getMessage());
         show.setTotalCount(plist.getTotal());
         show.setPageSize(plist.getSize());
@@ -47,7 +45,8 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
         for (int i = 0; i < plist.getRecords().size(); i++) {
             SpeechVO vo = new SpeechVO();
             vo.setId(plist.getRecords().get(i).getId());
-            vo.setType(Type.homepage_speech);
+            vo.setType(plist.getRecords().get(i).getType().equals(Type.homepage_speech_preach.getCode())?
+                    Type.homepage_speech_preach:Type.homepage_speech_double_choose);
             vo.setAddress(plist.getRecords().get(i).getAddress());
 
             //计算时间的天数差，要忽略具体时间点的影响
@@ -77,19 +76,18 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
     @Override
     public ShowListVO<SpeechVO> listCalendarSpeech(Integer page, Integer limit, Integer type, Long interval) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
-        LambdaQueryWrapper<Speech> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Speech::getType, type);
         Page<Speech> plist = new Page<Speech>(page, limit);
-        speechMapper.selectPage(plist, lqw);
+        speechMapper.selectPage(plist, null);
         show.setType(Type.homepage_speech.getMessage());
         show.setPageSize(plist.getSize());
         show.setCurrPage(plist.getCurrent());
         List<SpeechVO> list = new ArrayList<SpeechVO>();
-        //将Bulltin简化为分页展示的格式，及省去了具体内容
+        //将简化为分页展示的格式，及省去了具体内容
         for (int i = 0; i < plist.getRecords().size(); i++) {
             SpeechVO vo = new SpeechVO();
             vo.setId(plist.getRecords().get(i).getId());
-            vo.setType(Type.homepage_speech);
+            vo.setType(plist.getRecords().get(i).getType().equals(Type.homepage_speech_preach.getCode())?
+                    Type.homepage_speech_preach:Type.homepage_speech_double_choose);
             vo.setAddress(plist.getRecords().get(i).getAddress());
             //先洗去时间的具体时间点
             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");

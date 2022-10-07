@@ -15,7 +15,10 @@ public enum Type implements ITypeCode {
     bulletin_policy(3002, "政策"),
 
     workplace_activity(4000, "职场活动"),
-    news_trends(5000, "新闻动态");
+    news_trends(5000, "新闻动态"),
+    well_known_enterprises(6000,"知名企业"),
+    school_recruitment_guide(7000,"校招指南"),
+    departments_introduce(8000,"学院风采");
 
 
     private final Integer typeCode;

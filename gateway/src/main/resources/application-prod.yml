@@ -21,3 +21,7 @@ spring:
           uri: lb://jywhomepage
           predicates:
             - Path=/jyw/homepage/**
+        - id: jyw-double
+          uri: lb://jywdouble
+          predicates:
+            - Path=/jyw/double/**

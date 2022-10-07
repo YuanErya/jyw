@@ -1,4 +1,4 @@
-package com.jyw.jywbulletin.config;
+package com.jyw.jywdouble.config;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

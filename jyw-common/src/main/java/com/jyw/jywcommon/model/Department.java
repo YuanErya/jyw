@@ -1,5 +1,4 @@
-package com.jyw.jywbulletin.model;
-
+package com.jyw.jywcommon.model;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -10,27 +9,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @Data
-@TableName("bulletin")
+@TableName("department")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bulletin {
+public class Department {
     /**
      * 主键id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
-     * 公告类型
-     * 3001：通知公告
-     * 3002：政策法规
+     *学院风采代码为2000
      */
-    private Integer type;
+    private Integer type=8000;
     /**
-     * 标题
+     * 学院名
      */
-    @TableField("title")
-    private String title;
+    @TableField("name")
+    private String name;
     /**
      * 内容
      */
@@ -43,4 +41,5 @@ public class Bulletin {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
+
 }

@@ -1,4 +1,4 @@
-package com.jyw.jywbulletin.config;
+package com.jyw.jywdouble.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;

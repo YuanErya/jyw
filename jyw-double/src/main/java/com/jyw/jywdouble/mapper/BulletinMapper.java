@@ -1,7 +1,7 @@
-package com.jyw.jywbulletin.mapper;
+package com.jyw.jywdouble.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jyw.jywbulletin.model.Bulletin;
+import com.jyw.jywdouble.model.Bulletin;
 import org.springframework.stereotype.Repository;
 
 @Repository

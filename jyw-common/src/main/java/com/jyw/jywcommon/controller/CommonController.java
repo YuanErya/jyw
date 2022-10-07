@@ -16,16 +16,37 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommonController {
     @Autowired
     private ICommonService iCommonService;
+
+    /**
+     * 就业指导的分页展示
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/jobGuide/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListJobGuide(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
         return ApiResult.success(iCommonService.ListCommon(page, limit, Type.job_guide));
     }
+
+    /**
+     * 新闻动态的展示
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/newsTrends/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListNewsTrends(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
         return ApiResult.success(iCommonService.ListCommon(page, limit, Type.news_trends));
     }
+
+    /**
+     * 职场活动的展示
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/workplaceActivity/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListWorkplaceActivity(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
@@ -33,27 +54,45 @@ public class CommonController {
     }
 
 
-
-
+    /**
+     * 就业指导的检索功能
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
     @GetMapping("/jobGuide/search")
     public ApiResult<ShowListVO<ShowSimpleVO>>  JobGuideSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
         return ApiResult.success(iCommonService.ListCommon(page, limit, Type.job_guide,key));
     }
+
+    /**
+     * 新闻动态的检索功能
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
     @GetMapping("/newsTrends/search")
     public ApiResult<ShowListVO<ShowSimpleVO>>  NewsTrendsSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
         return ApiResult.success(iCommonService.ListCommon(page, limit, Type.news_trends,key));
     }
+
+    /**
+     * 职场活动的检索功能
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
     @GetMapping("/workplaceActivity/search")
     public ApiResult<ShowListVO<ShowSimpleVO>>  WorkplaceActivitySearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
         return ApiResult.success(iCommonService.ListCommon(page, limit, Type.workplace_activity,key));
     }
-
-
-
 }

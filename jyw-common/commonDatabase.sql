@@ -56,3 +56,20 @@ INSERT INTO `news_trends` VALUES (1,5000,'重庆邮电大学第76期“走进职
 INSERT INTO `news_trends` VALUES (2,5000,'重庆邮电大学2019年就业服务月系列活动开幕式顺利举行','测试内容2','2019-05-10 19:20:17');
 INSERT INTO `news_trends` VALUES (3,5000,'重庆邮电大学第74期“走进职场”系列讲座——简历撰写技巧讲座成功举办','测试内容3','2019-05-09 17:59:33');
 INSERT INTO `news_trends` VALUES (4,5000,'重庆邮电大学第73期“走进职场”系列讲座——公务员（选调生）考试备考讲座成功举办','测试内容4','2019-03-26 08:59:11');
+
+
+DROP TABLE IF EXISTS `departments`;
+CREATE TABLE `departments`  (
+                            `id` int UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '学院id',
+                            `type` int NOT NULL COMMENT '类型',
+                            `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '学院',
+                            `content` varchar(10000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
+                            `create_time` datetime NOT NULL COMMENT '发布时间',
+                            PRIMARY KEY (`id`) USING BTREE,
+                            INDEX `name`(`title`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '学院表' ROW_FORMAT = DYNAMIC;
+
+INSERT INTO `departments` VALUES (1,8000,'通信与信息工程','测试内容1','2020-01-02 19:06:51');
+INSERT INTO `departments` VALUES (2,8000,'计算机科学与技术','测试内容2','2019-04-29 19:54:23');
+INSERT INTO `departments` VALUES (3,8000,'自动化学院','测试内容3','2019-01-01 14:53:04');
+INSERT INTO `departments` VALUES (4,8000,'先进制造学院','测试内容4','2018-06-21 08:05:43');

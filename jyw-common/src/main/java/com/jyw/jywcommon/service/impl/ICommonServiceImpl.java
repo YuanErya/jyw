@@ -119,6 +119,4 @@ public class ICommonServiceImpl implements ICommonService {
         }
         return null;
     }
-
-
 }
