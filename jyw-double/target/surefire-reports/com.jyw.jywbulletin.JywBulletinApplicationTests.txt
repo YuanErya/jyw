@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.jyw.jywbulletin.JywBulletinApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.961 s - in com.jyw.jywbulletin.JywBulletinApplicationTests

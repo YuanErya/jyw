@@ -1,0 +1,27 @@
+server:
+  port: 10010
+  servlet:
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 175.178.108.114:8848
+    gateway:
+      routes:
+        - id: jyw-common
+          uri: lb://jywcommon
+          predicates:
+            - Path=/jyw/common/**
+        - id: jyw-homepage
+          uri: lb://jywhomepage
+          predicates:
+            - Path=/jyw/homepage/**
+        - id: jyw-double
+          uri: lb://jywdouble
+          predicates:
+            - Path=/jyw/double/**

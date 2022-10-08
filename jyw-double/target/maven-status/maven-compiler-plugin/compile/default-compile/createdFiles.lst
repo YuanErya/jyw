@@ -1,0 +1,8 @@
+com\jyw\jywbulletin\config\MybatisPlusConfig.class
+com\jyw\jywbulletin\mapper\BulletinMapper.class
+com\jyw\jywbulletin\JywBulletinApplication.class
+com\jyw\jywbulletin\service\impl\IBulletinServiceImpl.class
+com\jyw\jywbulletin\service\IBulletinService.class
+com\jyw\jywbulletin\controller\BulletinController.class
+com\jyw\jywbulletin\model\Bulletin.class
+com\jyw\jywbulletin\config\MyMetaObjectHandler.class

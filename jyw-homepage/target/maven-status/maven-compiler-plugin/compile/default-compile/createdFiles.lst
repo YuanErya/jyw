@@ -1,0 +1,13 @@
+com\jyw\jywhomepage\config\MybatisPlusConfig.class
+com\jyw\jywhomepage\model\Recruitment.class
+com\jyw\jywhomepage\model\Speech.class
+com\jyw\jywhomepage\mapper\RecruitmentMapper.class
+com\jyw\jywhomepage\service\impl\IRecruitmentServiceImpl.class
+com\jyw\jywhomepage\model\vo\SpeechVO.class
+com\jyw\jywhomepage\service\ISpeechService.class
+com\jyw\jywhomepage\mapper\SpeechMapper.class
+com\jyw\jywhomepage\controller\HomepageController.class
+com\jyw\jywhomepage\service\IRecruitmentService.class
+com\jyw\jywhomepage\service\impl\ISpeechServiceImpl.class
+com\jyw\jywhomepage\JywHomepageApplication.class
+com\jyw\jywhomepage\model\vo\SpeechVO$SpeechVOBuilder.class

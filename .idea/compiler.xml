@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="feign-api" />
+        <module name="gateway" />
+        <module name="jyw-common" />
+        <module name="jyw-double" />
+        <module name="jyw-homepage" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="feign-api" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="jyw-common" options="-parameters" />
+      <module name="jyw-double" options="-parameters" />
+      <module name="jyw-homepage" options="-parameters" />
+    </option>
+  </component>
+</project>

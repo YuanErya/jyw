@@ -1,0 +1,10 @@
+cn\jyw\feign\model\vo\ShowListVO.class
+cn\jyw\feign\model\vo\ShowSimpleVO.class
+cn\jyw\feign\common\api\ApiResult.class
+cn\jyw\feign\common\api\VOApi.class
+cn\jyw\feign\common\api\ApiErrorCode.class
+cn\jyw\feign\common\api\Type.class
+cn\jyw\feign\common\api\ITypeCode.class
+cn\jyw\feign\common\config\BaseEnumSerializer.class
+cn\jyw\feign\common\api\IErrorCode.class
+cn\jyw\feign\model\vo\ShowSimpleVO$ShowSimpleVOBuilder.class
