@@ -5,13 +5,11 @@ import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jyw.jywcommon.mapper.EnterpriseMapper;
 import com.jyw.jywcommon.mapper.JobGuideMapper;
 import com.jyw.jywcommon.mapper.NewsTrendsMapper;
 import com.jyw.jywcommon.mapper.WorkplaceActivityMapper;
-import com.jyw.jywcommon.model.Common;
-import com.jyw.jywcommon.model.JobGuide;
-import com.jyw.jywcommon.model.NewsTrends;
-import com.jyw.jywcommon.model.WorkplaceActivity;
+import com.jyw.jywcommon.model.*;
 import com.jyw.jywcommon.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +25,14 @@ public class ICommonServiceImpl implements ICommonService {
     private NewsTrendsMapper newsTrendsMapper;
     @Autowired
     private WorkplaceActivityMapper workplaceActivityMapper;
+    @Autowired
+    private EnterpriseMapper enterpriseMapper;
 
     /**
      * 分页展示的相似的数据
      * 通过泛型减少了一定的代码重复
      * 如果增加新的相似的功能则在if分支中增加即可，下方重载的（检索）方法也要添加
-     * @param t
+     * @param t 用于确定泛型的类型，没有实际意义
      * @param page
      * @param limit
      * @param type
@@ -52,6 +52,10 @@ public class ICommonServiceImpl implements ICommonService {
         } else if (t instanceof WorkplaceActivity) {
             Page<WorkplaceActivity> List = new Page<WorkplaceActivity>(page, limit);
             workplaceActivityMapper.selectPage(List, null);
+            return GetShowList(List, type, show);
+        }else if (t instanceof Enterprise) {
+            Page<Enterprise> List = new Page<Enterprise>(page, limit);
+            enterpriseMapper.selectPage(List, null);
             return GetShowList(List, type, show);
         }
         return null;
@@ -88,6 +92,12 @@ public class ICommonServiceImpl implements ICommonService {
             workplaceActivityMapper.selectPage(List, new LambdaQueryWrapper<WorkplaceActivity>()
                     .like(WorkplaceActivity::getTitle, key)
                     .or().like(WorkplaceActivity::getContent, key));
+            return GetShowList(List, type, show);
+        }else if (t instanceof Enterprise) {
+            Page<Enterprise> List = new Page<Enterprise>(page, limit);
+            enterpriseMapper.selectPage(List, new LambdaQueryWrapper<Enterprise>()
+                    .like(Enterprise::getTitle, key)
+                    .or().like(Enterprise::getContent, key));
             return GetShowList(List, type, show);
         }
         return null;

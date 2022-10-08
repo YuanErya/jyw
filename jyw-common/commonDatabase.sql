@@ -73,3 +73,20 @@ INSERT INTO `departments` VALUES (1,8000,'通信与信息工程','测试内容1'
 INSERT INTO `departments` VALUES (2,8000,'计算机科学与技术','测试内容2','2019-04-29 19:54:23');
 INSERT INTO `departments` VALUES (3,8000,'自动化学院','测试内容3','2019-01-01 14:53:04');
 INSERT INTO `departments` VALUES (4,8000,'先进制造学院','测试内容4','2018-06-21 08:05:43');
+
+
+DROP TABLE IF EXISTS `enterprises`;
+CREATE TABLE `enterprises`  (
+                              `id` int UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '企业id',
+                              `type` int NOT NULL COMMENT '类型',
+                              `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '企业',
+                              `content` varchar(10000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
+                              `create_time` datetime NOT NULL COMMENT '发布时间',
+                              PRIMARY KEY (`id`) USING BTREE,
+                              INDEX `title`(`title`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '知名企业表' ROW_FORMAT = DYNAMIC;
+
+INSERT INTO `enterprises` VALUES (1,6000,'知名企业1','测试内容1','2020-01-02 19:06:51');
+INSERT INTO `enterprises` VALUES (2,6000,'知名企业2','测试内容2','2019-04-29 19:54:23');
+INSERT INTO `enterprises` VALUES (3,6000,'知名企业3','测试内容3','2019-01-01 14:53:04');
+INSERT INTO `enterprises` VALUES (4,6000,'知名企业4','测试内容4','2018-06-21 08:05:43');
