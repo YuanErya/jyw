@@ -4,6 +4,9 @@ import cn.jyw.feign.common.api.ApiResult;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
+import com.jyw.jywcommon.model.JobGuide;
+import com.jyw.jywcommon.model.NewsTrends;
+import com.jyw.jywcommon.model.WorkplaceActivity;
 import com.jyw.jywcommon.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,7 @@ public class CommonController {
     @GetMapping("/jobGuide/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListJobGuide(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.job_guide));
+        return ApiResult.success(iCommonService.ListCommon(new JobGuide(),page, limit, Type.job_guide));
     }
 
     /**
@@ -38,7 +41,7 @@ public class CommonController {
     @GetMapping("/newsTrends/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListNewsTrends(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.news_trends));
+        return ApiResult.success(iCommonService.ListCommon(new NewsTrends(),page, limit, Type.news_trends));
     }
 
     /**
@@ -50,7 +53,7 @@ public class CommonController {
     @GetMapping("/workplaceActivity/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListWorkplaceActivity(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.workplace_activity));
+        return ApiResult.success(iCommonService.ListCommon(new WorkplaceActivity(),page, limit, Type.workplace_activity));
     }
 
 
@@ -65,7 +68,7 @@ public class CommonController {
     public ApiResult<ShowListVO<ShowSimpleVO>>  JobGuideSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.job_guide,key));
+        return ApiResult.success(iCommonService.ListCommon(new JobGuide(),page, limit, Type.job_guide,key));
     }
 
     /**
@@ -79,7 +82,7 @@ public class CommonController {
     public ApiResult<ShowListVO<ShowSimpleVO>>  NewsTrendsSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.news_trends,key));
+        return ApiResult.success(iCommonService.ListCommon(new NewsTrends(),page, limit, Type.news_trends,key));
     }
 
     /**
@@ -93,6 +96,6 @@ public class CommonController {
     public ApiResult<ShowListVO<ShowSimpleVO>>  WorkplaceActivitySearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                        @RequestParam(value = "key",required =true) String key){
-        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.workplace_activity,key));
+        return ApiResult.success(iCommonService.ListCommon(new WorkplaceActivity(),page, limit, Type.workplace_activity,key));
     }
 }

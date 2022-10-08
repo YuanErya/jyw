@@ -12,7 +12,7 @@ import java.util.Date;
 @TableName("news_trends")
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsTrends {
+public class NewsTrends extends Common{
     /**
      * 主键id
      */

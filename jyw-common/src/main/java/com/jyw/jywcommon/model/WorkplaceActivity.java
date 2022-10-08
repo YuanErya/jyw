@@ -13,7 +13,7 @@ import java.util.Date;
 @TableName("workplace_activity")
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkplaceActivity {
+public class WorkplaceActivity extends Common{
     /**
      * 主键id
      */
