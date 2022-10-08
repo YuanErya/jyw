@@ -5,10 +5,7 @@ import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jyw.jywcommon.mapper.EnterpriseMapper;
-import com.jyw.jywcommon.mapper.JobGuideMapper;
-import com.jyw.jywcommon.mapper.NewsTrendsMapper;
-import com.jyw.jywcommon.mapper.WorkplaceActivityMapper;
+import com.jyw.jywcommon.mapper.*;
 import com.jyw.jywcommon.model.*;
 import com.jyw.jywcommon.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,8 @@ public class ICommonServiceImpl implements ICommonService {
     private WorkplaceActivityMapper workplaceActivityMapper;
     @Autowired
     private EnterpriseMapper enterpriseMapper;
+    @Autowired
+    private RecruitmentGuideMapper recruitmentMapper;
 
     /**
      * 分页展示的相似的数据
@@ -56,6 +55,10 @@ public class ICommonServiceImpl implements ICommonService {
         }else if (t instanceof Enterprise) {
             Page<Enterprise> List = new Page<Enterprise>(page, limit);
             enterpriseMapper.selectPage(List, null);
+            return GetShowList(List, type, show);
+        }else if (t instanceof RecruitmentGuide) {
+            Page<RecruitmentGuide> List = new Page<RecruitmentGuide>(page, limit);
+            recruitmentMapper.selectPage(List, null);
             return GetShowList(List, type, show);
         }
         return null;
@@ -98,6 +101,12 @@ public class ICommonServiceImpl implements ICommonService {
             enterpriseMapper.selectPage(List, new LambdaQueryWrapper<Enterprise>()
                     .like(Enterprise::getTitle, key)
                     .or().like(Enterprise::getContent, key));
+            return GetShowList(List, type, show);
+        }else if (t instanceof RecruitmentGuide) {
+            Page<RecruitmentGuide> List = new Page<RecruitmentGuide>(page, limit);
+            recruitmentMapper.selectPage(List, new LambdaQueryWrapper<RecruitmentGuide>()
+                    .like(RecruitmentGuide::getTitle, key)
+                    .or().like(RecruitmentGuide::getContent, key));
             return GetShowList(List, type, show);
         }
         return null;

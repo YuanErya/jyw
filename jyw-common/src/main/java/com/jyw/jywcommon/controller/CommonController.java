@@ -4,10 +4,7 @@ import cn.jyw.feign.common.api.ApiResult;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
-import com.jyw.jywcommon.model.Enterprise;
-import com.jyw.jywcommon.model.JobGuide;
-import com.jyw.jywcommon.model.NewsTrends;
-import com.jyw.jywcommon.model.WorkplaceActivity;
+import com.jyw.jywcommon.model.*;
 import com.jyw.jywcommon.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +65,18 @@ public class CommonController {
     public ApiResult<ShowListVO<ShowSimpleVO>> ListWellKnownEnterprises(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                      @RequestParam(value = "limit", defaultValue = "6") Integer limit){
         return ApiResult.success(iCommonService.ListCommon(new Enterprise(),page, limit, Type.well_known_enterprises));
+    }
+
+    /**
+     * 校招指南的展示
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("/schoolRecruitmentGuide/list")
+    public ApiResult<ShowListVO<ShowSimpleVO>> ListSchoolRecruitmentGuide(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                        @RequestParam(value = "limit", defaultValue = "6") Integer limit){
+        return ApiResult.success(iCommonService.ListCommon(new RecruitmentGuide(),page, limit, Type.school_recruitment_guide));
     }
 
 
@@ -131,5 +140,19 @@ public class CommonController {
                                                                         @RequestParam(value = "limit", defaultValue = "6") Integer limit,
                                                                         @RequestParam(value = "key",required =true) String key){
         return ApiResult.success(iCommonService.ListCommon(new Enterprise(),page, limit, Type.well_known_enterprises,key));
+    }
+
+    /**
+     * 校招指南的检索功能
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
+    @GetMapping("/schoolRecruitmentGuide/search")
+    public ApiResult<ShowListVO<ShowSimpleVO>>  SchoolRecruitmentGuideSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                                           @RequestParam(value = "limit", defaultValue = "6") Integer limit,
+                                                                           @RequestParam(value = "key",required =true) String key){
+        return ApiResult.success(iCommonService.ListCommon(new RecruitmentGuide(),page, limit, Type.school_recruitment_guide,key));
     }
 }

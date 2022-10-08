@@ -144,3 +144,19 @@ INSERT INTO `enterprises` VALUES (3,6000,'知名企业3','测试内容3','2019-0
 INSERT INTO `enterprises` VALUES (4,6000,'知名企业4','测试内容4','2018-06-21 08:05:43');
 
 
+DROP TABLE IF EXISTS `recruitment_guide`;
+CREATE TABLE `recruitment_guide`  (
+                              `id` int UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '校招指南id',
+                              `type` int NOT NULL COMMENT '类型',
+                              `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标题',
+                              `content` varchar(10000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
+                              `create_time` datetime NOT NULL COMMENT '发布时间',
+                              PRIMARY KEY (`id`) USING BTREE,
+                              INDEX `title`(`title`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '校招指南表' ROW_FORMAT = DYNAMIC;
+
+INSERT INTO `recruitment_guide` VALUES (1,7000,'校招指南1','测试内容1','2020-01-02 19:06:51');
+INSERT INTO `recruitment_guide` VALUES (2,7000,'校招指南2','测试内容2','2019-04-29 19:54:23');
+INSERT INTO `recruitment_guide` VALUES (3,7000,'校招指南3','测试内容3','2019-01-01 14:53:04');
+INSERT INTO `recruitment_guide` VALUES (4,7000,'校招指南4','测试内容4','2018-06-21 08:05:43');
+
