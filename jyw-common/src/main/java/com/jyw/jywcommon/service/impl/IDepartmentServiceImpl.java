@@ -2,10 +2,12 @@ package com.jyw.jywcommon.service.impl;
 
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jyw.jywcommon.mapper.DepartmentMapper;
 import com.jyw.jywcommon.model.Department;
+import com.jyw.jywcommon.model.JobGuide;
 import com.jyw.jywcommon.model.vo.DepartmentVO;
 import com.jyw.jywcommon.service.IDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,9 @@ public class IDepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Depart
     public ShowListVO<DepartmentVO> showList(Integer page, Integer limit) {
         ShowListVO<DepartmentVO> show=new ShowListVO<DepartmentVO>();
         Page<Department> departmentPage=new Page<Department>(page,limit);
-        departmentMapper.selectPage(departmentPage,null);
+        LambdaQueryWrapper<Department> lqw = new LambdaQueryWrapper<>();
+        lqw.orderByAsc(Department::getId);//按照id进行排序
+        departmentMapper.selectPage(departmentPage,lqw);
         show.setType(Type.departments_introduce.getMessage());
         show.setTotalCount(departmentPage.getTotal());
         show.setPageSize(departmentPage.getSize());

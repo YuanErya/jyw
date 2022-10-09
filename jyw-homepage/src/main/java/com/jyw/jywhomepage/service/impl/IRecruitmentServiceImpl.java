@@ -25,6 +25,8 @@ public class IRecruitmentServiceImpl extends ServiceImpl<RecruitmentMapper,Recru
         ShowListVO<ShowSimpleVO> show=new ShowListVO<ShowSimpleVO>();
         LambdaQueryWrapper<Recruitment> lqw=new LambdaQueryWrapper<>();
         lqw.eq(Recruitment::getType,type);
+        lqw.orderByDesc(Recruitment::getCreateTime);//按时间排序
+        lqw.orderByAsc(Recruitment::getId);//时间相同则按照id进行排序
         Page<Recruitment> plist=new Page<Recruitment>(page,limit);
         recruitmentMapper.selectPage(plist,lqw);
         show.setType(type.equals(Type.homepage_recruitment_work.getCode())?Type.homepage_recruitment_work.getMessage():Type.homepage_recruitment_internship.getMessage());

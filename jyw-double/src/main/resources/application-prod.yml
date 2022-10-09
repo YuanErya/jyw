@@ -14,3 +14,7 @@ spring:
     nacos:
       discovery:
         server-addr: 175.178.108.114:8848
+  redis:
+    host: 175.178.108.114
+    password: jyw123
+    port: 6379

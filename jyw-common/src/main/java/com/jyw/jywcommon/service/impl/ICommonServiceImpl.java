@@ -42,23 +42,38 @@ public class ICommonServiceImpl implements ICommonService {
         ShowListVO<ShowSimpleVO> show = new ShowListVO<ShowSimpleVO>();
         if (t instanceof JobGuide) {
             Page<JobGuide> List = new Page<JobGuide>(page, limit);
-            jobGuideMapper.selectPage(List, null);
+            LambdaQueryWrapper<JobGuide> lqw = new LambdaQueryWrapper<>();
+            lqw.orderByDesc(JobGuide::getCreateTime);//按时间排序
+            lqw.orderByAsc(JobGuide::getId);//时间相同则按照id进行排序
+            jobGuideMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
         } else if (t instanceof NewsTrends) {
             Page<NewsTrends> List = new Page<NewsTrends>(page, limit);
-            newsTrendsMapper.selectPage(List, null);
+            LambdaQueryWrapper<NewsTrends> lqw = new LambdaQueryWrapper<>();
+            lqw.orderByDesc(NewsTrends::getCreateTime);//按时间排序
+            lqw.orderByAsc(NewsTrends::getId);//时间相同则按照id进行排序
+            newsTrendsMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
         } else if (t instanceof WorkplaceActivity) {
             Page<WorkplaceActivity> List = new Page<WorkplaceActivity>(page, limit);
-            workplaceActivityMapper.selectPage(List, null);
+            LambdaQueryWrapper<WorkplaceActivity> lqw = new LambdaQueryWrapper<>();
+            lqw.orderByDesc(WorkplaceActivity::getCreateTime);//按时间排序
+            lqw.orderByAsc(WorkplaceActivity::getId);//时间相同则按照id进行排序
+            workplaceActivityMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
         }else if (t instanceof Enterprise) {
             Page<Enterprise> List = new Page<Enterprise>(page, limit);
-            enterpriseMapper.selectPage(List, null);
+            LambdaQueryWrapper<Enterprise> lqw = new LambdaQueryWrapper<>();
+            lqw.orderByDesc(Enterprise::getCreateTime);//按时间排序
+            lqw.orderByAsc(Enterprise::getId);//时间相同则按照id进行排序
+            enterpriseMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
         }else if (t instanceof RecruitmentGuide) {
             Page<RecruitmentGuide> List = new Page<RecruitmentGuide>(page, limit);
-            recruitmentMapper.selectPage(List, null);
+            LambdaQueryWrapper<RecruitmentGuide> lqw = new LambdaQueryWrapper<>();
+            lqw.orderByDesc(RecruitmentGuide::getCreateTime);//按时间排序
+            lqw.orderByAsc(RecruitmentGuide::getId);//时间相同则按照id进行排序
+            recruitmentMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
         }
         return null;

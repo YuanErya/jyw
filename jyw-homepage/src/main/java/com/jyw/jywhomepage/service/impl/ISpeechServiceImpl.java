@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jyw.jywhomepage.mapper.SpeechMapper;
+import com.jyw.jywhomepage.model.Recruitment;
 import com.jyw.jywhomepage.model.Speech;
 import com.jyw.jywhomepage.model.vo.SpeechVO;
 import com.jyw.jywhomepage.service.ISpeechService;
@@ -34,7 +35,10 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<Speech> plist = new Page<Speech>(page, limit);
-        speechMapper.selectPage(plist, null);
+        LambdaQueryWrapper<Speech> lqw=new LambdaQueryWrapper<>();
+        lqw.orderByDesc(Speech::getCreateTime);//按时间排序
+        lqw.orderByAsc(Speech::getId);//时间相同则按照id进行排序
+        speechMapper.selectPage(plist, lqw);
         show.setType(Type.homepage_speech.getMessage());
         show.setTotalCount(plist.getTotal());
         show.setPageSize(plist.getSize());
@@ -77,7 +81,10 @@ public class ISpeechServiceImpl extends ServiceImpl<SpeechMapper, Speech> implem
     public ShowListVO<SpeechVO> listCalendarSpeech(Integer page, Integer limit, Integer type, Long interval) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<Speech> plist = new Page<Speech>(page, limit);
-        speechMapper.selectPage(plist, null);
+        LambdaQueryWrapper<Speech> lqw=new LambdaQueryWrapper<>();
+        lqw.orderByDesc(Speech::getCreateTime);//按时间排序
+        lqw.orderByAsc(Speech::getId);//时间相同则按照id进行排序
+        speechMapper.selectPage(plist, lqw);
         show.setType(Type.homepage_speech.getMessage());
         show.setPageSize(plist.getSize());
         show.setCurrPage(plist.getCurrent());

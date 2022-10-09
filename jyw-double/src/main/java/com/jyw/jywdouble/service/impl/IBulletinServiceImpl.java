@@ -31,9 +31,12 @@ public class IBulletinServiceImpl extends ServiceImpl<BulletinMapper, Bulletin> 
      * @return
      */
     public ShowListVO<ShowSimpleVO> listBulletin(Integer page, Integer limit, Integer type) {
+
         ShowListVO<ShowSimpleVO> show = new ShowListVO<ShowSimpleVO>();
         LambdaQueryWrapper<Bulletin> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Bulletin::getType, type);
+        lqw.eq(Bulletin::getType, type);//查询的类型
+        lqw.orderByDesc(Bulletin::getCreateTime);//按时间排序
+        lqw.orderByAsc(Bulletin::getId);//时间相同则按照id进行排序
         Page<Bulletin> plist = new Page<Bulletin>(page, limit);
         bulletinMapper.selectPage(plist, lqw);
         show.setType(type.equals(Type.bulletin_announcement.getCode()) ? "通知公告" : "政策法规");
@@ -69,6 +72,8 @@ public class IBulletinServiceImpl extends ServiceImpl<BulletinMapper, Bulletin> 
         LambdaQueryWrapper<Bulletin> lqw = new LambdaQueryWrapper<>();
         //根据KEY对标题和内容均进行匹配
         lqw.like(Bulletin::getTitle, key).or().like(Bulletin::getContent, key);
+        lqw.orderByDesc(Bulletin::getCreateTime);//按时间排序
+        lqw.orderByAsc(Bulletin::getId);//时间相同则按照id进行排序
         Page<Bulletin> plist = new Page<Bulletin>(page, limit);
         bulletinMapper.selectPage(plist, lqw);
         show.setType("通知政策");
