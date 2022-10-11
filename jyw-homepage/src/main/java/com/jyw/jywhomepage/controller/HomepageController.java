@@ -54,7 +54,7 @@ public class HomepageController {
 
     @GetMapping("/speech/calendar")
     public ApiResult<ShowListVO<SpeechVO>> CalendarSpeech(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                          @RequestParam(value = "limit", defaultValue = "6") Integer limit,
+                                                          @RequestParam(value = "limit", defaultValue = "100") Integer limit,
                                                           @RequestParam(value = "interval", defaultValue = "0") Long interval){
 
         return ApiResult.success(ISpeechService.listCalendarSpeech(page, limit, Type.homepage_speech.getCode(),interval));

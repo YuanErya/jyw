@@ -27,7 +27,7 @@ public class CommonController {
     @GetMapping("/jobGuide/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListJobGuide(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(new JobGuide(),page, limit, Type.job_guide));
+        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.job_guide));
     }
 
     /**
@@ -39,7 +39,7 @@ public class CommonController {
     @GetMapping("/newsTrends/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListNewsTrends(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(new NewsTrends(),page, limit, Type.news_trends));
+        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.news_trends));
     }
 
     /**
@@ -51,7 +51,7 @@ public class CommonController {
     @GetMapping("/workplaceActivity/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListWorkplaceActivity(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                             @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(new WorkplaceActivity(),page, limit, Type.workplace_activity));
+        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.workplace_activity));
     }
 
 
@@ -64,7 +64,7 @@ public class CommonController {
     @GetMapping("/wellKnownEnterprises/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListWellKnownEnterprises(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                      @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(new Enterprise(),page, limit, Type.well_known_enterprises));
+        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.well_known_enterprises));
     }
 
     /**
@@ -76,7 +76,7 @@ public class CommonController {
     @GetMapping("/schoolRecruitmentGuide/list")
     public ApiResult<ShowListVO<ShowSimpleVO>> ListSchoolRecruitmentGuide(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                         @RequestParam(value = "limit", defaultValue = "6") Integer limit){
-        return ApiResult.success(iCommonService.ListCommon(new RecruitmentGuide(),page, limit, Type.school_recruitment_guide));
+        return ApiResult.success(iCommonService.ListCommon(page, limit, Type.school_recruitment_guide));
     }
 
 

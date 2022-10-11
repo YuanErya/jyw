@@ -1,8 +1,10 @@
+E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\mapper\JywBulletinMapper.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\config\MybatisPlusConfig.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\service\impl\IBulletinServiceImpl.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\mapper\BulletinMapper.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\model\Bulletin.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\service\IBulletinService.java
+E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\model\JywBulletin.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\JywDoubleApplication.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\controller\DoubleController.java
 E:\MyWork\Project\jyw相关\jyw\jyw-double\src\main\java\com\jyw\jywdouble\config\MyMetaObjectHandler.java

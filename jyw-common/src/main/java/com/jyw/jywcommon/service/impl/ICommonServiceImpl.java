@@ -27,56 +27,30 @@ public class ICommonServiceImpl implements ICommonService {
     @Autowired
     private RecruitmentGuideMapper recruitmentMapper;
 
+    @Autowired
+    private JywBulletinMapper jywBulletinMapper;
+
     /**
      * 分页展示的相似的数据
      * 通过泛型减少了一定的代码重复
      * 如果增加新的相似的功能则在if分支中增加即可，下方重载的（检索）方法也要添加
-     * @param t 用于确定泛型的类型，没有实际意义
+     *
      * @param page
      * @param limit
      * @param type
-     * @param <T>
+     * @param
      * @return
      */
-    public <T extends Common> ShowListVO<ShowSimpleVO> ListCommon(T t, Integer page, Integer limit, Type type) {
+    public  ShowListVO<ShowSimpleVO> ListCommon(Integer page, Integer limit, Type type) {
+
         ShowListVO<ShowSimpleVO> show = new ShowListVO<ShowSimpleVO>();
-        if (t instanceof JobGuide) {
-            Page<JobGuide> List = new Page<JobGuide>(page, limit);
-            LambdaQueryWrapper<JobGuide> lqw = new LambdaQueryWrapper<>();
-            lqw.orderByDesc(JobGuide::getCreateTime);//按时间排序
-            lqw.orderByAsc(JobGuide::getId);//时间相同则按照id进行排序
-            jobGuideMapper.selectPage(List, lqw);
+            Page<JywBulletin> List = new Page<JywBulletin>(page, limit);
+            LambdaQueryWrapper<JywBulletin> lqw = new LambdaQueryWrapper<>();
+            lqw.eq(JywBulletin::getMenuId,GetTrueType(type));
+            lqw.orderByDesc(JywBulletin::getCreateTime);//按时间排序
+            lqw.orderByAsc(JywBulletin::getId);//时间相同则按照id进行排序
+            jywBulletinMapper.selectPage(List, lqw);
             return GetShowList(List, type, show);
-        } else if (t instanceof NewsTrends) {
-            Page<NewsTrends> List = new Page<NewsTrends>(page, limit);
-            LambdaQueryWrapper<NewsTrends> lqw = new LambdaQueryWrapper<>();
-            lqw.orderByDesc(NewsTrends::getCreateTime);//按时间排序
-            lqw.orderByAsc(NewsTrends::getId);//时间相同则按照id进行排序
-            newsTrendsMapper.selectPage(List, lqw);
-            return GetShowList(List, type, show);
-        } else if (t instanceof WorkplaceActivity) {
-            Page<WorkplaceActivity> List = new Page<WorkplaceActivity>(page, limit);
-            LambdaQueryWrapper<WorkplaceActivity> lqw = new LambdaQueryWrapper<>();
-            lqw.orderByDesc(WorkplaceActivity::getCreateTime);//按时间排序
-            lqw.orderByAsc(WorkplaceActivity::getId);//时间相同则按照id进行排序
-            workplaceActivityMapper.selectPage(List, lqw);
-            return GetShowList(List, type, show);
-        }else if (t instanceof Enterprise) {
-            Page<Enterprise> List = new Page<Enterprise>(page, limit);
-            LambdaQueryWrapper<Enterprise> lqw = new LambdaQueryWrapper<>();
-            lqw.orderByDesc(Enterprise::getCreateTime);//按时间排序
-            lqw.orderByAsc(Enterprise::getId);//时间相同则按照id进行排序
-            enterpriseMapper.selectPage(List, lqw);
-            return GetShowList(List, type, show);
-        }else if (t instanceof RecruitmentGuide) {
-            Page<RecruitmentGuide> List = new Page<RecruitmentGuide>(page, limit);
-            LambdaQueryWrapper<RecruitmentGuide> lqw = new LambdaQueryWrapper<>();
-            lqw.orderByDesc(RecruitmentGuide::getCreateTime);//按时间排序
-            lqw.orderByAsc(RecruitmentGuide::getId);//时间相同则按照id进行排序
-            recruitmentMapper.selectPage(List, lqw);
-            return GetShowList(List, type, show);
-        }
-        return null;
     }
 
     /**
@@ -152,5 +126,29 @@ public class ICommonServiceImpl implements ICommonService {
         }
         show.setList(list);
         return show;
+    }
+
+    /**
+     * 返回查询时的真是原数据库表中的真实ID
+     * @param type
+     * @return
+     */
+    private  Integer GetTrueType(Type type){
+        Integer trueType=0;
+        switch (type.getCode()){
+            case 2000:
+                trueType =40;
+                break;
+            case 4000:
+                trueType =100;
+                break;
+            case 5000:
+                trueType =90;
+                break;
+            case 7000:
+                trueType =110;
+                break;
+        }
+return trueType;
     }
 }

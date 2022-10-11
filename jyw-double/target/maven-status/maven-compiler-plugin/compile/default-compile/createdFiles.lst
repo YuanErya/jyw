@@ -1,8 +1,10 @@
 com\jyw\jywdouble\config\MybatisPlusConfig.class
-com\jyw\jywdouble\JywDoubleApplication.class
+com\jyw\jywdouble\mapper\JywBulletinMapper.class
 com\jyw\jywdouble\model\Bulletin.class
 com\jyw\jywdouble\controller\DoubleController.class
 com\jyw\jywdouble\service\impl\IBulletinServiceImpl.class
+com\jyw\jywdouble\mapper\BulletinMapper.class
+com\jyw\jywdouble\JywDoubleApplication.class
 com\jyw\jywdouble\service\IBulletinService.class
 com\jyw\jywdouble\config\MyMetaObjectHandler.class
-com\jyw\jywdouble\mapper\BulletinMapper.class
+com\jyw\jywdouble\model\JywBulletin.class

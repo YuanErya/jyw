@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@TableName("speech")
+@TableName("FLOW_PREACH_MEETING")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Speech {
@@ -20,8 +20,7 @@ public class Speech {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
-     *实习为1003
-     *招聘代码为1001
+     *
      */
     private Integer type;
     /**
