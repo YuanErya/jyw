@@ -7,9 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jyw.jywhomepage.mapper.JywRecruitmentMapper;
-import com.jyw.jywhomepage.mapper.RecruitmentMapper;
 import com.jyw.jywhomepage.model.JywRecruitment;
-import com.jyw.jywhomepage.model.Recruitment;
 import com.jyw.jywhomepage.service.IRecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +17,6 @@ import java.util.List;
 
 @Service
 public class IRecruitmentServiceImpl extends ServiceImpl<JywRecruitmentMapper,JywRecruitment> implements IRecruitmentService {
-   @Autowired
-   private RecruitmentMapper recruitmentMapper;
     @Autowired
     private JywRecruitmentMapper jywRecruitmentMapper;
 

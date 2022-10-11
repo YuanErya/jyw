@@ -13,7 +13,7 @@ import java.util.Date;
 @TableName("BASE_BULLETIN_INFO")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JywBulletin extends Common{
+public class JywBulletin {
     /**
      * 主键id
      */
@@ -25,7 +25,7 @@ public class JywBulletin extends Common{
      * 类型ID
      */
     @TableField("MENU_ID")
-    private Long menuId;
+    private Integer menuId;
 
 
     /**
@@ -33,6 +33,24 @@ public class JywBulletin extends Common{
      */
     @TableField("TITLE")
     private String title;
+
+    /**
+     * 信息来源
+     */
+    @TableField("SOURCE")
+    private String source;
+    /**
+     * 附件
+     */
+    @TableField("ATTACHMENT")
+    private String attachment;
+
+    /**
+     * 浏览量
+     */
+    @TableField("VIEW_COUNT")
+    private  Integer viewCount;
+
     /**
      * 创建时间
      */

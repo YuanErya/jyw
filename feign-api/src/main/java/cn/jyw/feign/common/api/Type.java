@@ -11,6 +11,7 @@ public enum Type implements ITypeCode {
 
     job_guide(2000, "就业指导"),
 
+    bulletin(3000,"公告政策"),
     bulletin_announcement(3001, "公告"),
     bulletin_policy(3002, "政策"),
 
