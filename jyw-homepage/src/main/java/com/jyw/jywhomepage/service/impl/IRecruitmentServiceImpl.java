@@ -24,11 +24,11 @@ public class IRecruitmentServiceImpl extends ServiceImpl<JywRecruitmentMapper,Jy
     public ShowListVO<ShowSimpleVO> listRecruitment(Integer page, Integer limit, Integer type) {
         ShowListVO<ShowSimpleVO> show=new ShowListVO<ShowSimpleVO>();
         LambdaQueryWrapper<JywRecruitment> lqw=new LambdaQueryWrapper<>();
-        lqw.eq(JywRecruitment::getDictRecruitmentTypeValue,
+        lqw.eq(JywRecruitment::getDictRecruitmentTypeName,
                 type.equals(Type.homepage_recruitment_work.getCode())?
-                        new Long("5020050000000002"):new Long("5020050000000001"))//判断查询招聘还是实习
-        .eq(JywRecruitment::getFlowStatus,"通过");//判断该条数据是否审核通过
-        lqw.orderByDesc(JywRecruitment::getAuditTime);//按时间排序
+                        "招聘":"实习")//判断查询招聘还是实习
+        .eq(JywRecruitment::getDictDeletedName,"未删除");//判断该条数据是否审核通过
+        lqw.orderByDesc(JywRecruitment::getPublishTime);//按时间排序
         lqw.orderByAsc(JywRecruitment::getId);//时间相同则按照id进行排序
         Page<JywRecruitment> plist=new Page<JywRecruitment>(page,limit);
         jywRecruitmentMapper.selectPage(plist,lqw);
@@ -44,7 +44,7 @@ public class IRecruitmentServiceImpl extends ServiceImpl<JywRecruitmentMapper,Jy
             vo.setId(plist.getRecords().get(i).getId());
             vo.setType(plist.getRecords().get(i).getDictRecruitmentTypeValue().equals(new Long("5020050000000002"))? Type.homepage_recruitment_work:Type.homepage_recruitment_internship);
             vo.setTitle(plist.getRecords().get(i).getTitle());
-            vo.setCreateTime(plist.getRecords().get(i).getAuditTime());//实际这里的时间是审核通过的时间
+            vo.setCreateTime(plist.getRecords().get(i).getPublishTime());//实际这里的时间是审核通过的时间
             list.add(vo);
         }
         show.setList(list);

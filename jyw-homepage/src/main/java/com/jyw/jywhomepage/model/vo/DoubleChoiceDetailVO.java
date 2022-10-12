@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+//该类用于格式化双选会
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
