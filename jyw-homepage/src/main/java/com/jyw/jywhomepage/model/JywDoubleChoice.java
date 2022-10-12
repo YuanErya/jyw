@@ -22,6 +22,12 @@ public class JywDoubleChoice {
     private Integer id;
 
     /**
+     * 年份
+     */
+    @TableField("YEAR")
+    private String year;
+
+    /**
      * 标题
      */
     @TableField("TITLE")
@@ -48,6 +54,47 @@ public class JywDoubleChoice {
     @JsonFormat(pattern = "HH:mm:ss")
     @TableField(value = "END_TIME", fill = FieldFill.INSERT)
     private Date endTime;
+
+    /**
+     * 开始报名的时间点
+     */
+    @JSONField(format="yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @TableField(value = "APPLY_START_TIME", fill = FieldFill.INSERT)
+    private Date applyStartTime;
+
+    /**
+     * 报名结束的时间点
+     */
+    @JSONField(format="yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @TableField(value = "APPLY_END_TIME", fill = FieldFill.INSERT)
+    private Date applyEndTime;
+
+    /**
+     * 发布的时间点
+     */
+    @JSONField(format="yyyy-MM-dd  HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @TableField(value = "PUBLISH_TIME", fill = FieldFill.INSERT)
+    private Date publishTime;
+    /**
+     * 展位图id
+     */
+    @TableField("BOOTH_IMG_ID")
+    private  Long boothImgId;
+
+    /**
+     * 展位图url
+     */
+    @TableField("BOOTH_IMG_URL")
+    private String boothImgUrl;
+    /**
+     * 浏览量
+     */
+    @TableField("VIEW_COUNT")
+    private  Long viewCount;
+
 
     /**
      * 是否删除，结果有
