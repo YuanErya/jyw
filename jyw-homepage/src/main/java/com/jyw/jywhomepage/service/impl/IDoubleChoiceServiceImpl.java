@@ -21,8 +21,6 @@ import java.util.List;
 public class IDoubleChoiceServiceImpl implements IDoubleChoiceService {
     @Autowired
     private JywDoubleChoiceMapper jywDoubleChoiceMapper;
-
-
     @Override
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();

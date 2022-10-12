@@ -22,7 +22,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/jobGuide/detail")
-    public ApiResult<DetailCommonVO> DetailJobGuide(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailJobGuide(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.job_guide);
     }
 
@@ -32,7 +32,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/newsTrends/detail")
-    public ApiResult<DetailCommonVO> DetailNewsTrends(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailNewsTrends(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.news_trends);
     }
 
@@ -42,7 +42,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/workplaceActivity/detail")
-    public ApiResult<DetailCommonVO> DetailWorkplaceActivity(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailWorkplaceActivity(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.workplace_activity);
     }
     /**
@@ -51,7 +51,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/bulletin/announcement/detail")
-    public ApiResult<DetailCommonVO> DetailBulletinAnnouncement(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailBulletinAnnouncement(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.bulletin_announcement);
     }
     /**
@@ -60,7 +60,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/bulletin/policy/detail")
-    public ApiResult<DetailCommonVO> DetailBulletinPolicy(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailBulletinPolicy(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.bulletin_policy);
     }
 
@@ -70,7 +70,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/schoolRecruitmentGuide/detail")
-    public ApiResult<DetailCommonVO> DetailSchoolRecruitmentGuide(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailSchoolRecruitmentGuide(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.school_recruitment_guide);
     }
 
@@ -80,7 +80,7 @@ public class DetailCommonController {
      * @return
      */
     @GetMapping("/wellKnownEnterprises/detail")
-    public ApiResult<DetailCommonVO> DetailWellKnownEnterprises(@RequestParam(value = "id", defaultValue = "1") Integer id){
+    public ApiResult<DetailCommonVO> DetailWellKnownEnterprises(@RequestParam(value = "id",required =true) Integer id){
         return iDetailCommonService.DetailCommon(id, Type.well_known_enterprises);
     }
 }

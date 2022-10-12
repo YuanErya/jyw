@@ -18,6 +18,13 @@ public class IDetailCommonServiceImpl implements IDetailCommonService {
     private JywBulletinMapper jywBulletinMapper;
     @Autowired
     private JywDetailMapper jywDetailMapper;
+
+    /**
+     * 详情页
+     * @param id
+     * @param type
+     * @return
+     */
     @Override
     public ApiResult<DetailCommonVO> DetailCommon(Integer id, Type type) {
 

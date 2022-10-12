@@ -22,12 +22,10 @@ import java.util.List;
 public class IPreachMeetingServiceImpl implements IPreachMeetingService {
     @Autowired
     private JywPreachMeetingMapper jywPreachMeetingMapper;
-    @Autowired
-    private JywDoubleChoiceMapper jywDoubleChoiceMapper;
 
+     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     *
      * @param page
      * @param limit
      * @param type
@@ -37,9 +35,9 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<JywPreachMeeting> plist = new Page<JywPreachMeeting>(page, limit);
-        LambdaQueryWrapper<JywPreachMeeting> lqw=new LambdaQueryWrapper<>();
-        lqw.eq(JywPreachMeeting::getFlowStatus,"通过");
-        lqw.orderByDesc(JywPreachMeeting::getHolderStartTime);//按时间排序
+        LambdaQueryWrapper<JywPreachMeeting> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(JywPreachMeeting::getDictDeletedName, "未删除");
+        lqw.orderByDesc(JywPreachMeeting::getHoldStartTime);//按时间排序
         lqw.orderByAsc(JywPreachMeeting::getId);//时间相同则按照id进行排序
         jywPreachMeetingMapper.selectPage(plist, lqw);
         show.setType(Type.homepage_speech.getMessage());
@@ -50,18 +48,17 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
         List<SpeechVO> list = new ArrayList<SpeechVO>();
         //简化为分页展示的格式，及省去了具体内容
         for (int i = 0; i < plist.getRecords().size(); i++) {
-            SpeechVO vo = new SpeechVO();
-            vo.setId(plist.getRecords().get(i).getId());
-            vo.setType(Type.homepage_speech_preach);
-            vo.setAddress(plist.getRecords().get(i).getHolderPlaceName());
-
+            SpeechVO vo = SpeechVO.builder()
+                    .id(plist.getRecords().get(i).getId())
+                    .type(Type.homepage_speech_preach)
+                    .address(plist.getRecords().get(i).getHoldPlaceName())
+                    .build();
             //计算时间的天数差，要忽略具体时间点的影响
-            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-            long interval=0;
+            long interval = 0;
             try {
-                interval = (formatter.parse(formatter.format(plist.getRecords().get(i).getHolderStartTime().getTime())).getTime()
+                interval = (formatter.parse(formatter.format(plist.getRecords().get(i).getHoldStartTime().getTime())).getTime()
                         - formatter.parse(formatter.format(System.currentTimeMillis())).getTime()) / 1000 / 24 / 60 / 60;
-            }catch(Exception e){
+            } catch (Exception e) {
                 log.error("时间格式错误");
             }
             if (interval >= 0 && interval < 10) {
@@ -70,8 +67,8 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
                 vo.setInterval(null);
             }
             vo.setTitle(plist.getRecords().get(i).getTitle());
-            vo.setStartDate(plist.getRecords().get(i).getHolderStartTime());
-            vo.setStartTime(plist.getRecords().get(i).getHolderStartTime());
+            vo.setStartDate(plist.getRecords().get(i).getHoldStartTime());
+            vo.setStartTime(plist.getRecords().get(i).getHoldStartTime());
             vo.setEndTime(plist.getRecords().get(i).getHoldEndTime());
             list.add(vo);
         }
@@ -83,9 +80,9 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
     public ShowListVO<SpeechVO> listCalendarSpeech(Integer page, Integer limit, Integer type, Long interval) {
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<JywPreachMeeting> plist = new Page<JywPreachMeeting>(page, limit);
-        LambdaQueryWrapper<JywPreachMeeting> lqw=new LambdaQueryWrapper<>();
-        lqw.eq(JywPreachMeeting::getFlowStatus,"通过");
-        lqw.orderByDesc(JywPreachMeeting::getHolderStartTime);//按时间排序
+        LambdaQueryWrapper<JywPreachMeeting> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(JywPreachMeeting::getDictDeletedName, "未删除");
+        lqw.orderByDesc(JywPreachMeeting::getHoldStartTime);//按时间排序
         lqw.orderByAsc(JywPreachMeeting::getId);//时间相同则按照id进行排序
         jywPreachMeetingMapper.selectPage(plist, lqw);
         show.setType(Type.homepage_speech.getMessage());
@@ -94,36 +91,30 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
         List<SpeechVO> list = new ArrayList<SpeechVO>();
         //将简化为分页展示的格式，及省去了具体内容
         for (int i = 0; i < plist.getRecords().size(); i++) {
-            SpeechVO vo = new SpeechVO();
-            vo.setId(plist.getRecords().get(i).getId());
-            vo.setType(Type.homepage_speech_preach);
-            vo.setAddress(plist.getRecords().get(i).getHolderPlaceName());
-            //先洗去时间的具体时间点
-            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-            long tmpInterval=0;
+            SpeechVO vo = SpeechVO.builder()
+                    .id(plist.getRecords().get(i).getId())
+                    .type(Type.homepage_speech_preach)
+                    .address(plist.getRecords().get(i).getHoldPlaceName())
+                    .build();
+            long tmpInterval = 0;
             try {
-                tmpInterval = (formatter.parse(formatter.format(plist.getRecords().get(i).getHolderStartTime().getTime())).getTime()
+                tmpInterval = (formatter.parse(formatter.format(plist.getRecords().get(i).getHoldStartTime().getTime())).getTime()
                         - formatter.parse(formatter.format(System.currentTimeMillis())).getTime()) / 1000 / 24 / 60 / 60;
-            }catch(Exception e){
+            } catch (Exception e) {
                 log.error("时间格式错误");
             }
             vo.setInterval(tmpInterval);
             vo.setTitle(plist.getRecords().get(i).getTitle());
-            vo.setStartDate(plist.getRecords().get(i).getHolderStartTime());
-            vo.setStartTime(plist.getRecords().get(i).getHolderStartTime());
+            vo.setStartDate(plist.getRecords().get(i).getHoldStartTime());
+            vo.setStartTime(plist.getRecords().get(i).getHoldStartTime());
             vo.setEndTime(plist.getRecords().get(i).getHoldEndTime());
-            if(tmpInterval==interval){list.add(vo);}
+            if (tmpInterval == interval) {
+                list.add(vo);
+            }
         }
-        show.setTotalCount((long)list.size());
-        show.setTotalPage((long)(list.size()/limit+1));
+        show.setTotalCount((long) list.size());
+        show.setTotalPage((long) (list.size() / limit + 1));
         show.setList(list);
         return show;
     }
-
-
-
-    //private ShowListVO<SpeechVO> GetShowList(Page<? extends Common> List, Type type, ShowListVO<SpeechVO> show){
-
-
-    //}
 }
