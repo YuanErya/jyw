@@ -48,4 +48,39 @@ public class API {
         }
         return trueType;
     }
+
+    /**
+     * 根据真实ID返回Type
+     *
+     * @param
+     * @return
+     */
+    public static Type GetType(Integer id) {
+        switch (id) {
+            case 40:
+                //就业指南
+                return Type.job_guide;
+            case 10:
+                //公告政策
+                return Type.bulletin_announcement;
+            case 20:
+                //政策
+                return Type.bulletin_policy;
+            case 100:
+                //职场活动
+                return Type.workplace_activity;
+            case 90:
+                //新闻动态
+                return Type.news_trends;
+            case 60:
+                //知名企业
+                return Type.well_known_enterprises;
+            case 110:
+                //校招指南
+                return Type.school_recruitment_guide;
+        }
+        return null;
+    }
+
+
 }

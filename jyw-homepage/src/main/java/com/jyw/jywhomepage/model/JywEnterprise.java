@@ -102,27 +102,4 @@ public class JywEnterprise {
      */
     @TableField("DICT_CHECK_STATE_NAME")
     private String dictCheckStateName;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

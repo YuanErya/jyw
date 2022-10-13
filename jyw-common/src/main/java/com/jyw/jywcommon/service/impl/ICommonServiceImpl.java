@@ -1,8 +1,11 @@
 package com.jyw.jywcommon.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jyw.jywcommon.api.API;
@@ -10,15 +13,45 @@ import com.jyw.jywcommon.mapper.*;
 import com.jyw.jywcommon.model.*;
 import com.jyw.jywcommon.service.ICommonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ICommonServiceImpl implements ICommonService {
     @Autowired
     private JywBulletinMapper jywBulletinMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * 综合搜索
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
+    @Override
+    public ShowListVO<ShowSimpleVO> AllSearch(Integer page, Integer limit, String key) {
+        String showListShowVO = stringRedisTemplate.opsForValue().get("cache:Common:all:search:"+page+","+limit+","+key);
+        if (StrUtil.isNotBlank(showListShowVO)) {
+            return JSON.parseObject(showListShowVO, new TypeReference<ShowListVO<ShowSimpleVO>>(){});
+        }
+        ShowListVO<ShowSimpleVO> show = new ShowListVO<ShowSimpleVO>();
+        Page<JywBulletin> List = new Page<JywBulletin>(page, limit);
+        LambdaQueryWrapper<JywBulletin> lqw = new LambdaQueryWrapper<>();
+        lqw.like(JywBulletin::getTitle, key);
+        lqw.orderByDesc(JywBulletin::getCreateTime);//按时间排序
+        lqw.orderByAsc(JywBulletin::getId);//时间相同则按照id进行排序
+        jywBulletinMapper.selectPage(List, lqw);
+        GetShowList(List, null, show);
+        //缓存10分钟
+        stringRedisTemplate.opsForValue().set("cache:Common:all:search:"+page+","+limit+","+key, JSON.toJSONString(show),10, TimeUnit.MINUTES);
+        return show;
+    }
 
     /**
      * 分页展示的相似的数据
@@ -32,7 +65,10 @@ public class ICommonServiceImpl implements ICommonService {
      * @return
      */
     public ShowListVO<ShowSimpleVO> ListCommon(Integer page, Integer limit, Type type) {
-
+        String showListShowVO = stringRedisTemplate.opsForValue().get("cache:Common:"+type.getMessage()+":"+"list:"+page+","+limit);
+        if (StrUtil.isNotBlank(showListShowVO)) {
+            return JSON.parseObject(showListShowVO, new TypeReference<ShowListVO<ShowSimpleVO>>(){});
+        }
         ShowListVO<ShowSimpleVO> show = new ShowListVO<ShowSimpleVO>();
         Page<JywBulletin> List = new Page<JywBulletin>(page, limit);
         LambdaQueryWrapper<JywBulletin> lqw = new LambdaQueryWrapper<>();
@@ -40,7 +76,9 @@ public class ICommonServiceImpl implements ICommonService {
         lqw.orderByDesc(JywBulletin::getCreateTime);//按时间排序
         lqw.orderByAsc(JywBulletin::getId);//时间相同则按照id进行排序
         jywBulletinMapper.selectPage(List, lqw);
-        return GetShowList(List, type, show);
+        GetShowList(List, type, show);
+        stringRedisTemplate.opsForValue().set("cache:Common:"+type.getMessage()+":"+"list:"+page+","+limit, JSON.toJSONString(show),10, TimeUnit.MINUTES);
+        return show;
     }
 
     /**
@@ -56,6 +94,10 @@ public class ICommonServiceImpl implements ICommonService {
      */
     @Override
     public ShowListVO<ShowSimpleVO> ListCommon(Integer page, Integer limit, Type type, String key) {
+        String showListShowVO = stringRedisTemplate.opsForValue().get("cache:Common:"+type.getMessage()+":"+"list:"+page+","+limit+","+key);
+        if (StrUtil.isNotBlank(showListShowVO)) {
+            return JSON.parseObject(showListShowVO, new TypeReference<ShowListVO<ShowSimpleVO>>(){});
+        }
         ShowListVO<ShowSimpleVO> show = new ShowListVO<>();
         Page<JywBulletin> List = new Page<JywBulletin>(page, limit);
         LambdaQueryWrapper<JywBulletin> lqw = new LambdaQueryWrapper<>();
@@ -67,7 +109,9 @@ public class ICommonServiceImpl implements ICommonService {
         lqw.orderByDesc(JywBulletin::getCreateTime);//按时间排序
         lqw.orderByAsc(JywBulletin::getId);//时间相同则按照id进行排序
         jywBulletinMapper.selectPage(List, lqw);
-        return GetShowList(List, type, show);
+        GetShowList(List, type, show);
+        stringRedisTemplate.opsForValue().set("cache:Common:"+type.getMessage()+":"+"list:"+page+","+limit+","+key, JSON.toJSONString(show),10, TimeUnit.MINUTES);
+        return show;
     }
 
     /**
@@ -80,7 +124,9 @@ public class ICommonServiceImpl implements ICommonService {
      * @return
      */
     private ShowListVO<ShowSimpleVO> GetShowList(Page<JywBulletin> List, Type type, ShowListVO<ShowSimpleVO> show) {
-        show.setType(type.getMessage());
+        if(type!=null){
+            show.setType(type.getMessage());
+        }
         show.setTotalCount(List.getTotal());
         show.setPageSize(List.getSize());
         show.setTotalPage(List.getPages());
@@ -89,12 +135,7 @@ public class ICommonServiceImpl implements ICommonService {
         for (int i = 0; i < List.getRecords().size(); i++) {
             ShowSimpleVO vo = new ShowSimpleVO();
             vo.setId(List.getRecords().get(i).getId());
-            if (type.equals(Type.bulletin)) {
-                vo.setType(List.getRecords().get(i).getMenuId().equals(API.GetTrueType(Type.bulletin_announcement))
-                        ? Type.bulletin_announcement : Type.bulletin_policy);
-            } else {
-                vo.setType(type);
-            }
+            vo.setType(API.GetType(List.getRecords().get(i).getMenuId()));
             vo.setTitle(List.getRecords().get(i).getTitle());
             vo.setCreateTime(List.getRecords().get(i).getCreateTime());
             list.add(vo);

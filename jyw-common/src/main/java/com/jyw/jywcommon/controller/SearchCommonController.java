@@ -17,6 +17,22 @@ public class SearchCommonController {
     @Autowired
     private ICommonService iCommonService;
 
+
+    /**
+     * 综合的检索功能
+     * @param page
+     * @param limit
+     * @param key
+     * @return
+     */
+    @GetMapping("/all/search")
+    public ApiResult<ShowListVO<ShowSimpleVO>>  AllSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                               @RequestParam(value = "limit", defaultValue = "6") Integer limit,
+                                                               @RequestParam(value = "key",required =true) String key){
+        return ApiResult.success(iCommonService.AllSearch(page, limit,key));
+    }
+
+
     /**
      * 就业指导的检索功能
      * @param page

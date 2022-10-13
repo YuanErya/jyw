@@ -93,7 +93,4 @@ public class RecruitmentDetailVO {
      * 返回企业
      */
     private JywEnterprise enterprise;
-
-
-
 }

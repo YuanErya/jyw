@@ -1,4 +1,4 @@
-package com.jyw.jywcommon.model;
+package com.jyw.jywdouble.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
@@ -10,44 +10,47 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@TableName("BASE_BULLETIN_INFO")
+@TableName("BASE_COLLEGE_INFO")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JywBulletin {
+public class DepartmentActivity {
+
     /**
      * 主键id
      */
     @TableId(value = "ID", type = IdType.AUTO)
     private Integer id;
-    /**
-     * 类型ID
-     */
-    @TableField("MENU_ID")
-    private Integer menuId;
-
 
     /**
      * 标题
      */
     @TableField("TITLE")
     private String title;
+    /**
+     * 学院ID
+     */
+    @TableField("DICT_COLLEGE_ID")
+    private  Integer dictCollegeId;
 
     /**
-     * 信息来源
+     * 学院名
      */
-    @TableField("SOURCE")
-    private String source;
-    /**
-     * 附件
-     */
-    @TableField("ATTACHMENT")
-    private String attachment;
+    @TableField("DICT_COLLEGE_NAME")
+    private String dictCollegeName;
 
     /**
      * 浏览量
      */
     @TableField("VIEW_COUNT")
-    private  Integer viewCount;
+    private  Long viewCount;
+
+    /**
+     * 是否删除
+     * 删除
+     * 未删除
+     */
+    @TableField("DICT_DELETED_NAME")
+    private String dictDeletedName;
 
     /**
      * 创建时间
