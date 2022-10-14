@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class IDepartmentActivityServiceImpl implements IDepartmentActivityService {
-
     @Autowired
     private DepartmentActivityMapper departmentActivityMapper;
     @Autowired
