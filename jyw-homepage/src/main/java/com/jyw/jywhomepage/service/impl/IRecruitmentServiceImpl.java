@@ -1,8 +1,11 @@
 package com.jyw.jywhomepage.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
 import cn.jyw.feign.model.vo.ShowSimpleVO;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,18 +13,26 @@ import com.jyw.jywhomepage.mapper.JywRecruitmentMapper;
 import com.jyw.jywhomepage.model.JywRecruitment;
 import com.jyw.jywhomepage.service.IRecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class IRecruitmentServiceImpl extends ServiceImpl<JywRecruitmentMapper,JywRecruitment> implements IRecruitmentService {
     @Autowired
     private JywRecruitmentMapper jywRecruitmentMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public ShowListVO<ShowSimpleVO> listRecruitment(Integer page, Integer limit, Integer type) {
+        String showListShowVO = stringRedisTemplate.opsForValue().get("cache:Homepage:"+type+":"+"list:"+page+","+limit);
+        if (StrUtil.isNotBlank(showListShowVO)) {
+            return JSON.parseObject(showListShowVO, new TypeReference<ShowListVO<ShowSimpleVO>>(){});
+        }
         ShowListVO<ShowSimpleVO> show=new ShowListVO<ShowSimpleVO>();
         LambdaQueryWrapper<JywRecruitment> lqw=new LambdaQueryWrapper<>();
         lqw.eq(JywRecruitment::getDictRecruitmentTypeName,
@@ -48,6 +59,7 @@ public class IRecruitmentServiceImpl extends ServiceImpl<JywRecruitmentMapper,Jy
             list.add(vo);
         }
         show.setList(list);
+        stringRedisTemplate.opsForValue().set("cache:Homepage:"+type+":"+"list:"+page+","+limit, JSON.toJSONString(show),10, TimeUnit.MINUTES);
         return show;
     }
 }

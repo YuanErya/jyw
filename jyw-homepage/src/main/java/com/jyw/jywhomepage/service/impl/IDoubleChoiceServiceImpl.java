@@ -1,7 +1,10 @@
 package com.jyw.jywhomepage.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jyw.jywhomepage.mapper.JywDoubleChoiceMapper;
@@ -10,19 +13,27 @@ import com.jyw.jywhomepage.model.vo.SpeechVO;
 import com.jyw.jywhomepage.service.IDoubleChoiceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 public class IDoubleChoiceServiceImpl implements IDoubleChoiceService {
     @Autowired
     private JywDoubleChoiceMapper jywDoubleChoiceMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @Override
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
+        String showSpeechVO = stringRedisTemplate.opsForValue().get("cache:Homepage:doubleChoice:list:"+page+","+limit);
+        if (StrUtil.isNotBlank(showSpeechVO)) {
+            return  JSON.parseObject(showSpeechVO, new TypeReference<ShowListVO<SpeechVO>>(){});
+        }
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<JywDoubleChoice> plist = new Page<JywDoubleChoice>(page, limit);
         LambdaQueryWrapper<JywDoubleChoice> lqw=new LambdaQueryWrapper<>();
@@ -42,7 +53,6 @@ public class IDoubleChoiceServiceImpl implements IDoubleChoiceService {
             vo.setId(plist.getRecords().get(i).getId());
             vo.setType(Type.homepage_speech_double_choose);
             vo.setAddress(plist.getRecords().get(i).getAddress());
-
             //计算时间的天数差，要忽略具体时间点的影响
             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
             long interval=0;
@@ -64,6 +74,7 @@ public class IDoubleChoiceServiceImpl implements IDoubleChoiceService {
             list.add(vo);
         }
         show.setList(list);
+        stringRedisTemplate.opsForValue().set("cache:Homepage:doubleChoice:list:"+page+","+limit, JSON.toJSONString(show),10, TimeUnit.MINUTES);
         return show;
     }
 

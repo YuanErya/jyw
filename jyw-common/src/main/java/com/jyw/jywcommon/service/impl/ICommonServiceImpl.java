@@ -101,11 +101,12 @@ public class ICommonServiceImpl implements ICommonService {
         ShowListVO<ShowSimpleVO> show = new ShowListVO<>();
         Page<JywBulletin> List = new Page<JywBulletin>(page, limit);
         LambdaQueryWrapper<JywBulletin> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(JywBulletin::getMenuId, API.GetTrueType(type));
         if (type.equals(Type.bulletin)) {
-            lqw.eq(JywBulletin::getMenuId, API.GetTrueType(type)).or().eq(JywBulletin::getMenuId, API.GetTrueType(Type.bulletin_policy));
+            lqw.like(JywBulletin::getTitle, key);
+            lqw.and(wrapper->wrapper.eq(JywBulletin::getMenuId, API.GetTrueType(Type.bulletin_announcement)).or().eq(JywBulletin::getMenuId, API.GetTrueType(Type.bulletin_policy)));
+        }else{
+            lqw.eq(JywBulletin::getMenuId, API.GetTrueType(type)).like(JywBulletin::getTitle, key);
         }
-        lqw.like(JywBulletin::getTitle, key);
         lqw.orderByDesc(JywBulletin::getCreateTime);//按时间排序
         lqw.orderByAsc(JywBulletin::getId);//时间相同则按照id进行排序
         jywBulletinMapper.selectPage(List, lqw);

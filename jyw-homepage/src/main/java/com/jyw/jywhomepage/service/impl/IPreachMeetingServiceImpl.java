@@ -1,7 +1,10 @@
 package com.jyw.jywhomepage.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.jyw.feign.common.api.Type;
 import cn.jyw.feign.model.vo.ShowListVO;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jyw.jywhomepage.mapper.JywDoubleChoiceMapper;
@@ -11,17 +14,21 @@ import com.jyw.jywhomepage.model.vo.SpeechVO;
 import com.jyw.jywhomepage.service.IPreachMeetingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 public class IPreachMeetingServiceImpl implements IPreachMeetingService {
     @Autowired
     private JywPreachMeetingMapper jywPreachMeetingMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -33,6 +40,10 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
      */
     @Override
     public ShowListVO<SpeechVO> listSpeech(Integer page, Integer limit, Integer type) {
+        String showSpeechVO = stringRedisTemplate.opsForValue().get("cache:Homepage:preach:list:"+page+","+limit);
+        if (StrUtil.isNotBlank(showSpeechVO)) {
+            return  JSON.parseObject(showSpeechVO, new TypeReference<ShowListVO<SpeechVO>>(){});
+        }
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<JywPreachMeeting> plist = new Page<JywPreachMeeting>(page, limit);
         LambdaQueryWrapper<JywPreachMeeting> lqw = new LambdaQueryWrapper<>();
@@ -73,11 +84,16 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
             list.add(vo);
         }
         show.setList(list);
+        stringRedisTemplate.opsForValue().set("cache:Homepage:preach:list:"+page+","+limit, JSON.toJSONString(show),10, TimeUnit.MINUTES);
         return show;
     }
 
     @Override
     public ShowListVO<SpeechVO> listCalendarSpeech(Integer page, Integer limit, Integer type, Long interval) {
+        String showSpeechVO = stringRedisTemplate.opsForValue().get("cache:Homepage:preach:calendar:list:"+page+","+limit);
+        if (StrUtil.isNotBlank(showSpeechVO)) {
+            return  JSON.parseObject(showSpeechVO, new TypeReference<ShowListVO<SpeechVO>>(){});
+        }
         ShowListVO<SpeechVO> show = new ShowListVO<SpeechVO>();
         Page<JywPreachMeeting> plist = new Page<JywPreachMeeting>(page, limit);
         LambdaQueryWrapper<JywPreachMeeting> lqw = new LambdaQueryWrapper<>();
@@ -115,6 +131,7 @@ public class IPreachMeetingServiceImpl implements IPreachMeetingService {
         show.setTotalCount((long) list.size());
         show.setTotalPage((long) (list.size() / limit + 1));
         show.setList(list);
+        stringRedisTemplate.opsForValue().set("cache:Homepage:preach:calendar:list:"+page+","+limit, JSON.toJSONString(show),10, TimeUnit.MINUTES);
         return show;
     }
 }
