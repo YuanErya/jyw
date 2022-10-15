@@ -102,13 +102,13 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
     @Override
     public ApiResult<DepartmentActivityDetailVO> GetDepartmentActivityDetail(Integer id) {
         //该值用于设置访问量的更新频率，代表多少次访问更新一次缓存
-        Integer size=10;
+        Integer size=30;
         stringRedisTemplate.opsForValue().setIfAbsent("cache:Double:departmentActivity:detail:viewCount:" + id, "0");
         String departmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivity:detail:" + id);
         if (StrUtil.isNotBlank(departmentActivityVO)) {
             DepartmentActivityDetailVO cache = JSON.parseObject(departmentActivityVO, DepartmentActivityDetailVO.class);
             stringRedisTemplate.opsForValue().increment("cache:Double:departmentActivity:detail:viewCount:" + id);
-            //如果访问量达到了一定的数量后删除缓存数据，更新数据库中的访问量，临时缓存中的访问量清零
+            //如果访问量达到了一定的数量后删除缓存数据，同时将该处访问量同步进数据库中综合网页版的访问数据，临时缓存中的访问量清零
             if(stringRedisTemplate.opsForValue().get("cache:Double:departmentActivity:detail:viewCount:" + id).equals(""+size)){
                 stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:viewCount:" + id,"0");
                 departmentActivityMapper.update(null,
