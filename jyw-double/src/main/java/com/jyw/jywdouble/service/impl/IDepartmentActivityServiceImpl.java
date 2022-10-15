@@ -7,6 +7,8 @@ import cn.jyw.feign.model.vo.ShowListVO;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jyw.jywdouble.mapper.DepartmentActivityDetailMapper;
 import com.jyw.jywdouble.mapper.DepartmentActivityMapper;
@@ -33,6 +35,7 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
 
     /**
      * 列表展示
+     *
      * @param page
      * @param limit
      * @param type
@@ -40,27 +43,29 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
      * @return
      */
     @Override
-    public ShowListVO<DepartmentActivityVO> ListDepartmentActivity(Integer page, Integer limit, Type type,Integer departmentId) {
-        String showDepartmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivityList:"+page+","+limit);
+    public ShowListVO<DepartmentActivityVO> ListDepartmentActivity(Integer page, Integer limit, Type type, Integer departmentId) {
+        String showDepartmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivityList:" + page + "," + limit);
         if (StrUtil.isNotBlank(showDepartmentActivityVO)) {
-            return  JSON.parseObject(showDepartmentActivityVO, new TypeReference<ShowListVO<DepartmentActivityVO>>(){});
+            return JSON.parseObject(showDepartmentActivityVO, new TypeReference<ShowListVO<DepartmentActivityVO>>() {
+            });
         }
         ShowListVO<DepartmentActivityVO> show = new ShowListVO<DepartmentActivityVO>();
         Page<DepartmentActivity> List = new Page<DepartmentActivity>(page, limit);
         LambdaQueryWrapper<DepartmentActivity> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(DepartmentActivity::getDictCollegeId,departmentId)
+        lqw.eq(DepartmentActivity::getDictCollegeId, departmentId)
                 .eq(DepartmentActivity::getDictDeletedName, "未删除");//筛选学院
         lqw.orderByDesc(DepartmentActivity::getCreateTime);//按时间排序
         lqw.orderByAsc(DepartmentActivity::getId);//时间相同则按照id进行排序
         departmentActivityMapper.selectPage(List, lqw);
         GetShowList(List, type, show);
         //两个小时过期
-        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivityList:"+page+","+limit, JSON.toJSONString(show),2, TimeUnit.HOURS);
+        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivityList:" + page + "," + limit, JSON.toJSONString(show), 2, TimeUnit.HOURS);
         return show;
     }
 
     /**
      * 检索
+     *
      * @param page
      * @param limit
      * @param type
@@ -69,9 +74,10 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
      */
     @Override
     public ShowListVO<DepartmentActivityVO> ListDepartmentActivity(Integer page, Integer limit, Type type, String key) {
-        String showDepartmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivityList:search:"+page+","+limit+","+key);
+        String showDepartmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivityList:search:" + page + "," + limit + "," + key);
         if (StrUtil.isNotBlank(showDepartmentActivityVO)) {
-            return JSON.parseObject(showDepartmentActivityVO, new TypeReference<ShowListVO<DepartmentActivityVO>>(){});
+            return JSON.parseObject(showDepartmentActivityVO, new TypeReference<ShowListVO<DepartmentActivityVO>>() {
+            });
         }
         ShowListVO<DepartmentActivityVO> show = new ShowListVO<>();
         Page<DepartmentActivity> List = new Page<DepartmentActivity>(page, limit);
@@ -83,30 +89,44 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
         departmentActivityMapper.selectPage(List, lqw);
         GetShowList(List, type, show);
         //缓存10分钟过期
-        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivityList:search:"+page+","+limit+","+key, JSON.toJSONString(show),10, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivityList:search:" + page + "," + limit + "," + key, JSON.toJSONString(show), 10, TimeUnit.MINUTES);
         return show;
     }
 
     /**
      * 展示详情页
+     *
      * @param id
      * @return
      */
     @Override
     public ApiResult<DepartmentActivityDetailVO> GetDepartmentActivityDetail(Integer id) {
-        String departmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivity:detail:"+id);
+        //该值用于设置访问量的更新频率，代表多少次访问更新一次缓存
+        Integer size=10;
+        stringRedisTemplate.opsForValue().setIfAbsent("cache:Double:departmentActivity:detail:viewCount:" + id, "0");
+        String departmentActivityVO = stringRedisTemplate.opsForValue().get("cache:Double:departmentActivity:detail:" + id);
         if (StrUtil.isNotBlank(departmentActivityVO)) {
-            DepartmentActivityDetailVO cache= JSON.parseObject(departmentActivityVO,DepartmentActivityDetailVO.class);
+            DepartmentActivityDetailVO cache = JSON.parseObject(departmentActivityVO, DepartmentActivityDetailVO.class);
+            stringRedisTemplate.opsForValue().increment("cache:Double:departmentActivity:detail:viewCount:" + id);
+            //如果访问量达到了一定的数量后删除缓存数据，更新数据库中的访问量，临时缓存中的访问量清零
+            if(stringRedisTemplate.opsForValue().get("cache:Double:departmentActivity:detail:viewCount:" + id).equals(""+size)){
+                stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:viewCount:" + id,"0");
+                departmentActivityMapper.update(null,
+                        new LambdaUpdateWrapper<DepartmentActivity>()
+                                .eq(DepartmentActivity::getId,id)
+                                .set(DepartmentActivity::getViewCount,departmentActivityMapper.selectById(id).getViewCount()+size));
+                stringRedisTemplate.delete("cache:Double:departmentActivity:detail:" + id);
+            }
             return ApiResult.success(cache);
         }
-        DepartmentActivity departmentActivity=departmentActivityMapper.selectOne(
+        DepartmentActivity departmentActivity = departmentActivityMapper.selectOne(
                 new LambdaQueryWrapper<DepartmentActivity>()
-                .eq(DepartmentActivity::getDictDeletedName,"未删除")
-        .eq(DepartmentActivity::getId,id));
-        if(departmentActivity==null){
+                        .eq(DepartmentActivity::getDictDeletedName, "未删除")
+                        .eq(DepartmentActivity::getId, id));
+        if (departmentActivity == null) {
             return ApiResult.failed("暂无此id的数据");
         }
-        DepartmentActivityDetailVO vo=DepartmentActivityDetailVO.builder()
+        DepartmentActivityDetailVO vo = DepartmentActivityDetailVO.builder()
                 .id(id)
                 .title(departmentActivity.getTitle())
                 .departmentName(departmentActivity.getDictCollegeName())
@@ -114,14 +134,13 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
                 .createTime(departmentActivity.getCreateTime())
                 .content(departmentActivityDetailMapper.selectOne(
                         new LambdaQueryWrapper<DepartmentActivityDetail>()
-                                .eq(DepartmentActivityDetail::getBaseCollegeInfoId,id))
+                                .eq(DepartmentActivityDetail::getBaseCollegeInfoId, id))
                         .getContent())
                 .build();
-        //缓存半个小时过期
-        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:"+id, JSON.toJSONString(vo),30, TimeUnit.MINUTES);
+        //加入缓存，缓存过期是访问量达到一定次数后刷新缓存
+        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:" + id, JSON.toJSONString(vo));
         return ApiResult.success(vo);
     }
-
 
     /**
      * 用于装配，
@@ -140,7 +159,7 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
         show.setCurrPage(List.getCurrent());
         java.util.List<DepartmentActivityVO> list = new ArrayList<DepartmentActivityVO>();
         for (int i = 0; i < List.getRecords().size(); i++) {
-            DepartmentActivityVO vo =DepartmentActivityVO.builder()
+            DepartmentActivityVO vo = DepartmentActivityVO.builder()
                     .id(List.getRecords().get(i).getId())
                     .title(List.getRecords().get(i).getTitle())
                     .type(type)
