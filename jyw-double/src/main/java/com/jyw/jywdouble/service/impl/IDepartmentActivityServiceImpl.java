@@ -138,7 +138,7 @@ public class IDepartmentActivityServiceImpl implements IDepartmentActivityServic
                         .getContent())
                 .build();
         //加入缓存，缓存过期是访问量达到一定次数后刷新缓存
-        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:" + id, JSON.toJSONString(vo));
+        stringRedisTemplate.opsForValue().set("cache:Double:departmentActivity:detail:" + id, JSON.toJSONString(vo),12,TimeUnit.HOURS);
         return ApiResult.success(vo);
     }
 
