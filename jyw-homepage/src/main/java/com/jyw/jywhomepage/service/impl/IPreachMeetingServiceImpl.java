@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jyw.jywhomepage.mapper.JywDoubleChoiceMapper;
 import com.jyw.jywhomepage.mapper.JywPreachMeetingMapper;
 import com.jyw.jywhomepage.model.JywPreachMeeting;
 import com.jyw.jywhomepage.model.vo.SpeechVO;

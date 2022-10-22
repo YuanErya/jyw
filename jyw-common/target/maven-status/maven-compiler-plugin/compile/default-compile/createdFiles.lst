@@ -1,5 +1,7 @@
+com\jyw\jywcommon\service\impl\ICommonServiceImpl$3.class
 com\jyw\jywcommon\service\IDetailCommonService.class
 com\jyw\jywcommon\config\MyMetaObjectHandler.class
+com\jyw\jywcommon\service\impl\ICommonServiceImpl$2.class
 com\jyw\jywcommon\controller\SearchCommonController.class
 com\jyw\jywcommon\controller\DetailCommonController.class
 com\jyw\jywcommon\model\vo\DetailCommonVO.class
@@ -15,3 +17,4 @@ com\jyw\jywcommon\service\ICommonService.class
 com\jyw\jywcommon\service\impl\ICommonServiceImpl.class
 com\jyw\jywcommon\controller\GetCommonController.class
 com\jyw\jywcommon\mapper\JywDetailMapper.class
+com\jyw\jywcommon\service\impl\ICommonServiceImpl$1.class

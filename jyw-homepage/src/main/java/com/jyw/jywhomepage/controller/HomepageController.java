@@ -42,6 +42,9 @@ public class HomepageController {
         return ApiResult.success(iRecruitmentService.listRecruitment(page, limit, type));
     }
 
+
+
+
     /**
      * 首页的宣讲会的分页展示
      *
@@ -58,7 +61,6 @@ public class HomepageController {
 
     /**
      * 首页的宣讲会的日历查询
-     *
      * @param page
      * @param limit
      * @param interval
@@ -74,7 +76,6 @@ public class HomepageController {
 
     /**
      * 双选会的分页展示
-     *
      * @param page
      * @param limit
      * @return

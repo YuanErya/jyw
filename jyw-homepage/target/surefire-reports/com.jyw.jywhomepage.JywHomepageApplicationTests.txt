@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.jyw.jywhomepage.JywHomepageApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.764 s - in com.jyw.jywhomepage.JywHomepageApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.998 s - in com.jyw.jywhomepage.JywHomepageApplicationTests

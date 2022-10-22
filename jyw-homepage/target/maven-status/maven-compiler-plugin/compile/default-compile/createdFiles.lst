@@ -5,9 +5,11 @@ com\jyw\jywhomepage\controller\HomepageController.class
 com\jyw\jywhomepage\service\impl\IRecruitmentDetailServiceImpl.class
 com\jyw\jywhomepage\model\JywRecruitmentDetail.class
 com\jyw\jywhomepage\model\JywPreachMeeting.class
+com\jyw\jywhomepage\service\impl\IPreachMeetingServiceImpl$2.class
 com\jyw\jywhomepage\service\impl\IDoubleChoiceServiceImpl.class
 com\jyw\jywhomepage\model\JywRecruitment.class
 com\jyw\jywhomepage\model\vo\RecruitmentDetailVO$RecruitmentDetailVOBuilder.class
+com\jyw\jywhomepage\service\impl\IDoubleChoiceServiceImpl$1.class
 com\jyw\jywhomepage\JywHomepageApplication.class
 com\jyw\jywhomepage\mapper\JywPreachMeetingMapper.class
 com\jyw\jywhomepage\model\vo\DoubleChoiceDetailVO$DoubleChoiceDetailVOBuilder.class
@@ -27,11 +29,13 @@ com\jyw\jywhomepage\service\IRecruitmentService.class
 com\jyw\jywhomepage\mapper\JywDoubleChoiceDetailMapper.class
 com\jyw\jywhomepage\service\IPreachMeetingService.class
 com\jyw\jywhomepage\model\vo\RecruitmentDetailVO.class
+com\jyw\jywhomepage\service\impl\IRecruitmentServiceImpl$1.class
 com\jyw\jywhomepage\service\IRecruitmentDetailService.class
 com\jyw\jywhomepage\mapper\JywDoubleChoiceMapper.class
 com\jyw\jywhomepage\model\vo\SpeechDetailVO$SpeechDetailVOBuilder.class
 com\jyw\jywhomepage\model\JywPreachMeetingDetail.class
 com\jyw\jywhomepage\controller\MeetingDetailController.class
+com\jyw\jywhomepage\service\impl\IPreachMeetingServiceImpl$1.class
 com\jyw\jywhomepage\model\JywDoubleChoice.class
 com\jyw\jywhomepage\model\vo\SpeechDetailVO.class
 com\jyw\jywhomepage\model\vo\SpeechVO$SpeechVOBuilder.class
